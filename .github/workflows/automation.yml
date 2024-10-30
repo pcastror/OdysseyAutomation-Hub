@@ -16,19 +16,8 @@ jobs:
       with:
         node-version: 20
         cache: npm
-        cache-dependency-path: ./cucumber-with-typescript/package-lock.json
-
-    - run: |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
+        cache-dependency-path: ./package-lock.json
+    
+    - run: npm ci
     - name: Run Script
-      run: npm test ./cucumber-with-typescript
-  
-
-
-
+      run: npm test
