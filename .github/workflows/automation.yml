@@ -18,7 +18,7 @@ jobs:
         cache: npm
         cache-dependency-path: ./cucumber-with-typescript/package-lock.json
     
-    - run: npm ci ./cucumber-with-typescript
+    - run: npm ci
     - name: Run Script
       run: npm test ./cucumber-with-typescript
   
