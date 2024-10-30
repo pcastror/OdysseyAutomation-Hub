@@ -8,14 +8,18 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
-    - uses: actions/checkout@v4.2.2
-    - uses: actions/setup-node@v4
+    - name: Checkout
+      uses: actions/checkout@v4.2.2
+
+    - name: Setup node modules
+      uses: actions/setup-node@v4 ./cucumber-with-typescript/
       with:
         node-version: 20
         cache: npm
-    - run: npm ci
-    - run: npm test ./cucumber-with-typescript/cucumber.js
-
+    
+    - run: npm ci ./cucumber-with-typescript
+    - name: Run Script
+      run: npm test ./cucumber-with-typescript
   
 
 
