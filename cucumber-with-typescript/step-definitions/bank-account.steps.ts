@@ -5,6 +5,7 @@ import { assert } from 'chai';
 export class BankAccountSteps {
   private accountBalance: number = 0;
 
+
   @given(/A bank account with starting balance of \$(\d*)/)
   public givenAnAccountWithStartingBalance(amount: number) {
     this.accountBalance = amount;
@@ -18,5 +19,6 @@ export class BankAccountSteps {
   @then(/The bank account balance should be \$(\d*)/)
   public accountBalanceShouldEqual(expectedAmount: number) {
     assert.equal(this.accountBalance, expectedAmount);
+    console.log("HOLA ACTIONS!")
   }
 }
