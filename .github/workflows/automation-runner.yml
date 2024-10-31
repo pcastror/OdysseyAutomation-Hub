@@ -26,5 +26,5 @@ jobs:
       run: npm test
     - name: Use variables
       run: |
-        echo "secret variable: $URL_PATH"
-        echo "not secret variable: $URL_NOT_SECRET"
+        echo "secret variable: $env.URL_PATH"
+        echo "not secret variable: $env.URL_NOT_SECRET"
