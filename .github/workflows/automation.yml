@@ -1,8 +1,10 @@
-name: Interestelar
-'on':
+name: Automation-Runner
+on:
   push:
     branches:
-      - main
+      [main]
+    env: 
+        URL_PATH: ${{ secrets.URL_PATH }}  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,3 +23,4 @@ jobs:
     - run: npm ci
     - name: Run Script
       run: npm test
+    - run: echo "Repo variable: $URL_PATH"
