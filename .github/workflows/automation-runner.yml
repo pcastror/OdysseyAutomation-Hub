@@ -8,7 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env: 
-        URL_PATH: ${{ secrets.URL_PATH }} 
+        URL_PATH: ${{ secrets.URL_PATH}}
+        URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET}} 
     steps:
     - name: Checkout
       uses: actions/checkout@v4.2.2
@@ -25,4 +26,5 @@ jobs:
       run: npm test
     - name: Use variables
       run: |
-        echo "Repo variable: $URL_PATH"
+        echo "secret variable: $URL_PATH"
+        echo "not secret variable: $URL_NOT_SECRET"
