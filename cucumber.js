@@ -3,10 +3,10 @@ let common = [
   '--require-module ts-node/register',
   '--require step-definitions/**/*.ts',
   '--format progress-bar',
-  '--format node_modules/cucumber-pretty'
+  '--format progress',                                    // Load custom formatter
+  '--publish'
 ].join(' ');
 
 module.exports = {
-  default: common,
-  // More profiles can be added if desired
+  default: common
 };
