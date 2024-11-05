@@ -2,7 +2,8 @@ name: Automation-Runner
 on:
   push:
     branches:
-      [main]
+      - main
+      - 'releases/**'
 
 jobs:
   build:
