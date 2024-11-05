@@ -1,0 +1,31 @@
+name: PR-Runner
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      URL_PATH: ${{ secrets.URL_PATH}}
+      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup node modules
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: npm
+          cache-dependency-path: ./package-lock.json
+
+      - run: npm ci
+      - name: Run Script
+        run: npm test
+      - name: Use variables
+        run: |
+          echo "secret variable: $env.URL_PATH"
+          echo "not secret variable: $env.URL_NOT_SECRET"
