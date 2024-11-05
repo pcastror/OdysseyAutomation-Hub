@@ -1,4 +1,4 @@
-name: Interestelar
+name: First Workflow
 on:
   push:
     branches:
