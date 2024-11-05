@@ -6,11 +6,19 @@ on:
       - 'releases/**'
 jobs:
   build:
-    name: build
+    name: preparing env variables
     runs-on: ubuntu-latest
     env:
       URL_PATH: ${{ secrets.URL_PATH}}
-      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET}}
+    steps:
+      - name: Variables populate
+        run: |
+          echo "URL_PATH secret variable: $env.URL_PATH"
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    needs: build
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -20,15 +28,5 @@ jobs:
           node-version: 16.20.2
           cache: npm
       - run: npm ci
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
       - name: Run Script
         run: npm run test
-      - name: Use variables
-        run: |
-          echo "secret variable: $env.URL_PATH"
-          echo "not secret variable: $env.URL_NOT_SECRET"
