@@ -24,7 +24,7 @@ jobs:
 
       - run: npm ci
       - name: Run Script
-        run: npm rum test
+        run: npm run test
       - name: Use variables
         run: |
           echo "secret variable: $env.URL_PATH"
