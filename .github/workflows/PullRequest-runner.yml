@@ -22,7 +22,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./package-lock.json
 
-      - run: npm i
+      - run: npm ci
       - name: Run Script
         run: npm rum test
       - name: Use variables
