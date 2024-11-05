@@ -9,7 +9,7 @@ jobs:
     name: preparing env variables
     runs-on: ubuntu-latest
     env:
-      URL_NOT_SECRET: ${{ vars.URL_NOT_SECRET}}
+      URL_NOT_SECRET: ${{ vars.URL_NOT_SECRET }}
     steps:
       - name: Variables populate
         run: |

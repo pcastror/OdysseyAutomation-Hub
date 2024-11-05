@@ -1,12 +1,15 @@
 import {binding, given, then, when} from 'cucumber-tsflow';
 import {assert} from 'chai';
 import {setDefaultTimeout} from "@cucumber/cucumber";
-import * as url from "url";
+import { config} from "dotenv";
+
+config();
 
 setDefaultTimeout(60 * 1000);
 
 @binding()
 export class BankAccountSteps {
+
     private accountBalance: number = 0;
 
     @given("A bank account with starting balance of {string}")
@@ -22,7 +25,7 @@ export class BankAccountSteps {
     @then("The bank account balance should be {string}")
     public async accountBalanceShouldEqual(expectedAmount: string) {
         assert.equal(this.accountBalance, parseInt(expectedAmount));
-        let UrlPath = process.env.URL_NOT_SECRET;
+        const UrlPath = process.env.URL_NOT_SECRET;
 
         if (UrlPath == "actions_test") {
             console.log("Variable rescatada con éxito" + " " + UrlPath)

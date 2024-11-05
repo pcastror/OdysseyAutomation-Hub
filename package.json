@@ -10,19 +10,20 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@cucumber/pretty-formatter": "1.0.0-alpha.1",
     "@types/chai": "4.2.21",
     "@types/cucumber": "7.0.0",
     "chai": "^4.2.0",
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.0",
-    "@cucumber/pretty-formatter": "1.0.0-alpha.1",
     "cucumber-tsflow": "4.0.0-rc.1",
     "ts-node": "10.0.0",
     "typescript": "4.3.2"
   },
   "dependencies": {
     "@cucumber/cucumber": "7.3.0",
+    "dotenv": "^16.4.5",
     "lodash": "4.17.21",
     "node-libcurl": "2.3.3"
   }
-  }
+}
