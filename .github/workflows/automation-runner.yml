@@ -19,11 +19,11 @@ jobs:
         with:
           node-version: 16.20.2
           cache: npm
-      - run: npm ci
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - run: npm ci
       - name: Run Script
         run: npm run test
       - name: Use variables
