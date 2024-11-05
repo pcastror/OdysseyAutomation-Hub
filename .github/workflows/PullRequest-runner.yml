@@ -5,7 +5,7 @@ on:
       - 'releases/**'
 jobs:
   build:
-    name: preparing env variables
+    name: preparing variables
     runs-on: ubuntu-latest
     env:
       URL_NOT_SECRET: ${{ env.URL_NOT_SECRET }}
