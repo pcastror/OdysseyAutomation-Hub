@@ -1,9 +1,8 @@
-name: PR Runner
+name: Main Runner
 on:
   push:
     branches:
       - main
-      - 'releases/**'
 jobs:
   build:
     name: preparing env variables
