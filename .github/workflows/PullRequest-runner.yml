@@ -18,13 +18,13 @@ jobs:
       - name: Setup node modules
         uses: actions/setup-node@v4
         with:
-          node-version: 22.11.0
+          node-version: 22
           cache: npm
           cache-dependency-path: ./package-lock.json
 
-      - run: npm ci
+      - run: npm i
       - name: Run Script
-        run: npm test
+        run: npm rum test
       - name: Use variables
         run: |
           echo "secret variable: $env.URL_PATH"
