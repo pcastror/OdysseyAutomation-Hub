@@ -25,9 +25,9 @@ export class BankAccountSteps {
         let UrlPath = process.env.URL_PATH;
 
         if (UrlPath == "actions_test") {
-            console.log("Variable rescatada con éxito")
+            console.log("Variable rescatada con éxito" + UrlPath)
         } else {
-            throw ("Si ves este mensaje es porque fallamos")
+            throw ("Si ves este mensaje es porque fallamos" +UrlPath)
         }
 
     }
