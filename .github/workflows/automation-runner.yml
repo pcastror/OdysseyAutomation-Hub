@@ -29,4 +29,4 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Run Script
-        run: npm run test
+        run: npm run test $URL_PATH
