@@ -22,7 +22,7 @@ export class BankAccountSteps {
     @then("The bank account balance should be {string}")
     public async accountBalanceShouldEqual(expectedAmount: string) {
         assert.equal(this.accountBalance, parseInt(expectedAmount));
-        let UrlPath = process.env.URL_PATH;
+        let UrlPath = process.env.URL_NOT_SECRET;
 
         if (UrlPath == "actions_test") {
             console.log("Variable rescatada con éxito" + " " + UrlPath)
