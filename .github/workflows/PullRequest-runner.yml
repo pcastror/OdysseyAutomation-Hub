@@ -8,11 +8,11 @@ jobs:
     name: preparing variables
     runs-on: ubuntu-latest
     env:
-      URL_NOT_SECRET: ${{ env.URL_NOT_SECRET }}
+      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
     steps:
       - name: Variables populate
         run: |
-          echo "URL_PATH secret variable: $env.URL_NOT_SECRET"
+          echo "secret variable: $secrets.URL_NOT_SECRET"
   test:
     name: test
     runs-on: ubuntu-latest
