@@ -5,17 +5,21 @@ on:
       - 'releases/**'
 jobs:
   build:
-    name: preparing env variables
+    name: preparing variables
     runs-on: ubuntu-latest
+    environment: Stage
     env:
-      URL_NOT_SECRET: ${{ vars.URL_NOT_SECRET }}
+      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
     steps:
       - name: Variables populate
         run: |
-          echo "URL_PATH secret variable: $env.URL_NOT_SECRET"
+          echo "secret variable: $URL_NOT_SECRET"
   test:
     name: test
     runs-on: ubuntu-latest
+    environment: Stage
+    env:
+      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
     needs: build
 
     steps:
@@ -28,4 +32,4 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Run Script
-        run: npm run test $env.URL_NOT_SECRET
+        run: npm run test
