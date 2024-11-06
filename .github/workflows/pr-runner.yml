@@ -31,7 +31,5 @@ jobs:
           node-version: 16.20.2
           cache: npm
       - run: npm ci
-      - name: Axios Action
-        uses: actionsflow/axios@v1.1.0
       - name: Run Script
         run: npm run test
