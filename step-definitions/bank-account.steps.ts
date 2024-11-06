@@ -1,9 +1,9 @@
 import {binding, given, then, when} from 'cucumber-tsflow';
 import {assert} from 'chai';
 import {setDefaultTimeout} from "@cucumber/cucumber";
-import { config} from "dotenv";
+//import { config} from "dotenv";
 
-config();
+//config();
 
 setDefaultTimeout(60 * 1000);
 
