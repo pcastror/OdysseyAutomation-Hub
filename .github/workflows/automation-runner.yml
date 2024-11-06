@@ -2,7 +2,7 @@ name: Main Runner
 on:
   push:
     branches:
-      - Main
+      - main
 jobs:
   build:
     name: preparing variables
