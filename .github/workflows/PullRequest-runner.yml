@@ -20,7 +20,6 @@ jobs:
     environment: Stage
     env:
       URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
-        - name: Setup node modules
     needs: build
 
     steps:
