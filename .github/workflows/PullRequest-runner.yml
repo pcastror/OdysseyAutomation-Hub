@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Variables populate
         run: |
-          echo "secret variable: $secrets.URL_NOT_SECRET"
+          echo "secret variable: $URL_NOT_SECRET"
   test:
     name: test
     runs-on: ubuntu-latest
