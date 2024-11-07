@@ -1,14 +1,9 @@
-name: Tests/Report Runner
+name: Test & Report
 on:
   workflow_dispatch:
   push:
     branches:
-      - releases/**
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+      - main
 jobs:
   build:
     name: Prep. vars
