@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
+      URL: ${{ secrets.URL }}
     needs: build
     steps:
       - name: Checkout

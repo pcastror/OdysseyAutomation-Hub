@@ -2,12 +2,9 @@ import {binding, given, then, when} from 'cucumber-tsflow';
 import {assert, expect} from 'chai';
 import {setDefaultTimeout} from "@cucumber/cucumber";
 import {RequestService} from '../clients/request.service';
-import { exec } from 'child_process';
-import * as url from "url";
-import events from "events";
 
 setDefaultTimeout(60 * 1000);
-//let respuesta: any;
+
 let id: number;
 
 @binding()
@@ -30,7 +27,6 @@ export class StarWarsCharactersSteps {
 
     @then("return {string} in name field")
     public async SwapiNameResponse(name: string) {
-        //  expect(ExpectedName).equal(name);
         assert.equal(this.respuesta.data.name, name);
 
 
