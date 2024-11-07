@@ -1,11 +1,10 @@
 import {binding, given, then, when} from 'cucumber-tsflow';
 import {assert, expect} from 'chai';
 import {setDefaultTimeout} from "@cucumber/cucumber";
-//import {config} from "dotenv";
 import {RequestService} from '../clients/request.service';
-
-
-//config();
+import { exec } from 'child_process';
+import * as url from "url";
+import events from "events";
 
 setDefaultTimeout(60 * 1000);
 //let respuesta: any;
@@ -35,14 +34,5 @@ export class StarWarsCharactersSteps {
         assert.equal(this.respuesta.data.name, name);
 
 
-        /* assert.equal(this.accountBalance, parseInt(expectedAmount));
-         const UrlPath = process.env.URL_NOT_SECRET;
-
-         if (UrlPath == "actions_test") {
-             console.log("Variable rescatada con éxito" + " " + UrlPath)
-         } else {
-             throw ("Si ves este mensaje es porque fallamos" + " " + UrlPath)
-         }
- */
     }
 }

@@ -9199,3 +9199,5 @@ node_modules/yn/package.json
 node_modules/yn/readme.md
 /node_modules/
 /.env
+/util/cucumber-console-output.txt
+/report.json

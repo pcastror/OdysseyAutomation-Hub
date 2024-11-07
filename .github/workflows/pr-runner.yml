@@ -1,11 +1,17 @@
-name: PR Runner
+name: Tests/Report Runner
 on:
+  workflow_dispatch:
   push:
     branches:
-      - 'releases/**'
+      - releases/**
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 jobs:
   build:
-    name: preparing variables
+    name: Prep. vars
     runs-on: ubuntu-latest
     environment: Stage
     env:
@@ -21,7 +27,6 @@ jobs:
     env:
       URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
     needs: build
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -32,4 +37,23 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Run Script
-        run: npm run test
+        working-directory: ./util
+        run: npx ts-node runTest.ts
+      - name: Read file and set output variable
+        id: read_file
+        run: | 
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
+          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_ENV
+      - name: Decode and use FILE_CONTENT
+        run: |
+          echo "$FILE_CONTENT" | base64 --decode
+
+  Report:
+    name: Send Report
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Send Report
+        run: |
+          echo "report sent to slack : $GITHUB_ENV"
+
