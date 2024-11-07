@@ -1,0 +1,79 @@
+[
+  {
+    "description": "  In order to know Starwars info",
+    "elements": [
+      {
+        "description": "",
+        "id": "example-1-to-actions;starwars-characters",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "starwars characters",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "A Character id 1",
+            "match": {
+              "location": "node_modules/cucumber-tsflow/src/binding-decorator.ts:196"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "get swapi is call",
+            "match": {
+              "location": "node_modules/cucumber-tsflow/src/binding-decorator.ts:206"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1232000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "return \"Luke Skywalker\" in name field",
+            "match": {
+              "location": "node_modules/cucumber-tsflow/src/binding-decorator.ts:216"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "example-1-to-actions",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Example 1 to actions",
+    "tags": [],
+    "uri": "features/swapiPeople-get.feature"
+  }
+]

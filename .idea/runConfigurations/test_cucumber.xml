@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="test" type="js.build_tools.npm" singleton="false" nameIsGenerated="true">
+  <configuration default="false" name="test:cucumber" type="js.build_tools.npm" singleton="false" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="test" />
+      <script value="test:cucumber" />
     </scripts>
     <node-interpreter value="$USER_HOME$/.nvm/versions/node/v16.20.2/bin/node" />
     <envs>
