@@ -1,4 +1,4 @@
-name: PR Runner
+name: Tests/Report Runner
 on:
   workflow_dispatch:
   push:
@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "secret variable: $URL_NOT_SECRET"
   test:
-    name: Run test
+    name: test
     runs-on: ubuntu-latest
     environment: Stage
     env:

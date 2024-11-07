@@ -1,4 +1,4 @@
-name: Main Runner
+name: Tests Runner
 on:
   workflow_dispatch:
   push:
@@ -11,7 +11,7 @@ on:
       - reopened
 jobs:
   build:
-    name: preparing variables
+    name: Prep. vars
     runs-on: ubuntu-latest
     environment: Stage
     env:
