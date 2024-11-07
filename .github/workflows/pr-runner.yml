@@ -51,10 +51,9 @@ jobs:
   Report:
     name: Send Report
     runs-on: ubuntu-latest
-    needs: test
+    needs: read_file
     steps:
       - name: Send Report
-        id: read_file
         run: |
           echo "report sent to slack : $GITHUB_ENV" | base64 --decode
 
