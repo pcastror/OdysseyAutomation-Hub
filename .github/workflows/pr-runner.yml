@@ -56,5 +56,5 @@ jobs:
       - name: Send Report
         id: read_file
         run: |
-          echo "report sent to slack : $FILE_CONTENT"
+          echo "report sent to slack : $FILE_CONTENT" | base64 --decode
 
