@@ -35,6 +35,5 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Run Script
-        run: |
-          cd util
-          ts-node runTest.ts
+        working-directory: ./util
+        run: ts-node runTest.ts
