@@ -55,5 +55,5 @@ jobs:
     steps:
       - name: Send Report
         run: |
-          echo "report sent to slack : $GITHUB_ENV" | base64 --decode
+          echo "report sent to slack : $GITHUB_ENV"
 
