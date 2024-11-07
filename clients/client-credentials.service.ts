@@ -3,7 +3,7 @@ export class ClientCredentialsService {
 
     constructor() {
 
-        this.url = process.env.URL ?? "https://swapi.dev";
+        this.url = process.env.URL ?? "";
     }
 
     getUrl(): string {
