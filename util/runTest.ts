@@ -6,24 +6,33 @@ function removeAnsiCodes(text: string): string {
 }
 
 exec('npm run test:cucumber', (error, stdout, stderr) => {
-
+    const FilePath = 'cucumber-console-output.txt';
     if (error) {
-        console.error(`Error ejecutando Cucumber: ${error}`);
+        console.error(`Error execution Cucumber: ${error}`);
     } else {
         const output = stdout + stderr;
         const cleanOutput = removeAnsiCodes(output);
-        fs.writeFileSync('cucumber-console-output.txt', cleanOutput, 'utf-8');
+        fs.writeFileSync(FilePath, cleanOutput, 'utf-8');
         const urlRegex = /https:\/\/reports\.cucumber\.io\/reports\/[a-f0-9-]+/g;
         const foundUrls = cleanOutput.match(urlRegex);
 
         let reportUrl = '';
 
         if (foundUrls && foundUrls.length > 0) {
-            reportUrl = foundUrls[0]; // Tomamos la primera URL que coincide
+            reportUrl = foundUrls[0];
             process.env.CUCUMBER_REPORT_URL = reportUrl;
-            console.log(stdout);
-            console.log(stderr);
-            //console.log(reportUrl);
+            console.log(stdout, '\n' + stderr);
+
+            const NumLinesToDelete = 6;
+
+            try {
+                const FileContent = fs.readFileSync(FilePath, 'utf-8');
+                const lines = FileContent.split('\n');
+                const ContentModified = lines.slice(NumLinesToDelete).join('\n');
+                fs.writeFileSync(FilePath, ContentModified, 'utf-8');
+            } catch (error) {
+                console.error(`Eror: ${error.message}`);
+            }
         }
     }
 });

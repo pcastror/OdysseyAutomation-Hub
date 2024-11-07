@@ -55,5 +55,5 @@ jobs:
     steps:
       - name: Send Report
         id: read_file
-        run: echo "HERE WE WILL SEND THE REPORT BY SLACK"
+        run: echo "REPORT SENT TO SLACK \n $FILE_CONTENT"
 
