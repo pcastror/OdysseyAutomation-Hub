@@ -1,14 +1,10 @@
 name: PR Runner
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - 'releases/**'
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch
+
 jobs:
   build:
-    name: preparing variables
+    name: Prep. vars
     runs-on: ubuntu-latest
     environment: Stage
     env:
@@ -18,13 +14,12 @@ jobs:
         run: |
           echo "secret variable: $URL_NOT_SECRET"
   test:
-    name: test
+    name: Run test
     runs-on: ubuntu-latest
     environment: Stage
     env:
       URL_NOT_SECRET: ${{ secrets.URL_NOT_SECRET }}
     needs: build
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -36,4 +31,14 @@ jobs:
       - run: npm ci
       - name: Run Script
         working-directory: ./util
-        run: ts-node runTest.ts
+        run: npx ts-node runTest.ts
+
+  Report:
+    name: Send Report
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Read file and set output variable
+        id: read_file
+        run: FILE_CONTENT=$(cat util/cucumber-console-output.txt) echo "::set-output
+              name=file_content::$FILE_CONTENT"

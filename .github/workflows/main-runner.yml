@@ -1,8 +1,7 @@
 name: Main Runner
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
+
 jobs:
   build:
     name: preparing variables
