@@ -1,9 +1,9 @@
-name: Tests Runner
+name: Tests
 on:
   workflow_dispatch:
   push:
     branches:
-      - releases/**
+      - qa/**
   pull_request:
     types:
       - opened
