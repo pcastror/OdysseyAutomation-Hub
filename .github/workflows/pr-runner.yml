@@ -41,7 +41,9 @@ jobs:
         run: npx ts-node runTest.ts
       - name: Read file and set output variable
         id: read_file
-        run: FILE_CONTENT=$(cat util/cucumber-console-output.txt)
+        run: | 
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt)
+          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_ENV
 
   Report:
     name: Send Report
@@ -50,5 +52,5 @@ jobs:
     steps:
       - name: Read file and set output variable
         id: read_file
-        run: echo "{name}={file_content}" >> $FILE_CONTENT
+        run: echo "HERE WE WILL SEND THE REPORT BY SLACK"
 
