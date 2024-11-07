@@ -41,7 +41,7 @@ jobs:
         run: npx ts-node runTest.ts
       - name: Read file and set output variable
         id: read_file
-        run: $GITHUB_OUTPUT=$(cat util/cucumber-console-output.txt)
+        run: FILE_CONTENT=$(cat util/cucumber-console-output.txt)
 
   Report:
     name: Send Report
@@ -50,5 +50,5 @@ jobs:
     steps:
       - name: Read file and set output variable
         id: read_file
-        run: echo "{name}={file_content}" >> $GITHUB_OUTPUT
+        run: echo "{name}={file_content}" >> $FILE_CONTENT
 
