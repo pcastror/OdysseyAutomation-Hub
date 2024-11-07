@@ -42,7 +42,7 @@ jobs:
       - name: Read file and set output variable
         id: read_file
         run: | 
-          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n'))
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
           echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_ENV
       - name: Decode and use FILE_CONTENT
         run: |
