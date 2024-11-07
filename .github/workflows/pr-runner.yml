@@ -55,5 +55,6 @@ jobs:
     steps:
       - name: Send Report
         id: read_file
-        run: echo "REPORT SENT TO SLACK \n $FILE_CONTENT"
+        run: |
+          echo "report sent to slack : $FILE_CONTENT"
 
