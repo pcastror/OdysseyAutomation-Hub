@@ -1,7 +1,14 @@
 name: Main Runner
 on:
-  workflow_dispatch
-
+  workflow_dispatch:
+  push:
+    branches:
+      - releases/**
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 jobs:
   build:
     name: preparing variables
