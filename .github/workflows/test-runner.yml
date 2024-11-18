@@ -26,6 +26,7 @@ jobs:
     environment: Stage
     env:
       URL: ${{ secrets.URL }}
+      CUCUMBER_PUBLISH_TOKEN: ${{ secrets.CUCUMBER_PUBLISH_TOKEN }}
     needs: build
 
     steps:
@@ -37,6 +38,8 @@ jobs:
           node-version: 16.20.2
           cache: npm
       - run: npm ci
+      - name: Export cucumber publish variable
+        run: |
+          export CUCUMBER_PUBLISH_TOKEN=$CUCUMBER_PUBLISH_TOKEN
       - name: Run Script
         run: npm run test:cucumber
-        continue-on-error: true
