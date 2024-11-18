@@ -22,7 +22,6 @@ jobs:
           echo "secret variable: $URL_NOT_SECRET"
   test:
     name: test
-    continue-on-error: true
     runs-on: ubuntu-latest
     environment: Stage
     env:
@@ -40,3 +39,4 @@ jobs:
       - run: npm ci
       - name: Run Script
         run: npm run test:cucumber
+        continue-on-error: true
