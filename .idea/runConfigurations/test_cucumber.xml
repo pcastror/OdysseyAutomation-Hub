@@ -7,7 +7,7 @@
     </scripts>
     <node-interpreter value="$USER_HOME$/.nvm/versions/node/v16.20.2/bin/node" />
     <envs>
-      <env name="URL_NOT_SECRET" value="actions_test" />
+      <env name="URL" value="https://swapi.dev" />
     </envs>
     <method v="2" />
   </configuration>
