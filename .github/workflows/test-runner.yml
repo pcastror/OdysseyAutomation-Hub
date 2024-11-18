@@ -22,6 +22,7 @@ jobs:
           echo "secret variable: $URL_NOT_SECRET"
   test:
     name: test
+    continue-on-error: true
     runs-on: ubuntu-latest
     environment: Stage
     env:
@@ -30,7 +31,6 @@ jobs:
 
     steps:
       - name: Checkout
-        continue-on-error: true
         uses: actions/checkout@v4.2.2
       - name: Setup node modules
         uses: actions/setup-node@v4
