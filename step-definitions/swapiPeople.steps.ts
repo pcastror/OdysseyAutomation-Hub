@@ -27,8 +27,12 @@ export class StarWarsCharactersSteps {
 
     @then("return {string} in name field")
     public async SwapiNameResponse(name: string) {
+        try {
         assert.equal(this.respuesta.data.name, name);
-
+        } catch (error) {
+            console.error('Test failed:', error);
+            process.exitCode = 1;
+        }
 
     }
 }
