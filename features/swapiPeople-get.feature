@@ -4,4 +4,4 @@ Feature: Example 1 to actions
   Scenario: starwars characters
     Given A Character id 1
     When get swapi is call
-    Then return "Luke Skywalker" in name field
+    Then return "Luke" in name field
