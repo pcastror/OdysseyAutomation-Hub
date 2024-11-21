@@ -8,15 +8,7 @@ on:
         required: true
         default: "@smoke"
         type: string
-  push:
-    branches:
-      - "qa/**"
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-
+        
 jobs:
   build:
     runs-on: ubuntu-latest
