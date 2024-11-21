@@ -37,15 +37,6 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: where am I
-        run: pwd
-
-      - name: what I have
-        run: ls -R
-
-      - name: Run smoke tests
-        run: 'npm run test-tag:smoke'
-
   smoke:
     needs: build
     runs-on: ubuntu-latest
@@ -77,13 +68,6 @@ jobs:
       - name: Install with CI
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: where am I
-        run: pwd
-
-      - name: what I have
-        run: ls -R
-
       - name: Run smoke tests
         run: 'npm run test-tag:smoke'
 
@@ -118,12 +102,5 @@ jobs:
       - name: Install with CI
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: where am I
-        run: pwd
-
-      - name: what I have
-        run: ls -R
-
       - name: Run regression tests
         run: 'npm run test-tag:regression'
