@@ -5,16 +5,6 @@ on:
     branches:
       - qa/**  # Puedes modificar las ramas según lo necesites.
   workflow_dispatch:
-    inputs:
-      run_smoke:
-        description: 'Do you want to run Smoke tests?'
-        required: false
-        default: 'false'
-      run_regression:
-        description: 'Do you want to run Regression tests?'
-        required: false
-        default: 'false'
-
 jobs:
   # Job de Build: Este siempre se ejecuta.
   build:
@@ -33,20 +23,26 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
-     
+        
+  select-job:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: select job
+      uses: actions/manual-validation@v2
+      with:
+        approvers: anyone
+        message: 'Please, select the test to run'
+        options: 'smoke-test, regression-test'
   # Job de Smoke: Este solo se ejecuta manualmente después del build.
   smoke:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event.inputs.job-seleccionado == 'smoke-test'
     environment: Stage
     env:
       URL: ${{ secrets.URL }}      
     steps:
-      - name: Approve
-        uses: actions/approval@v2
-        with:
-          approval-type: 'manual'
-          environment: 'Stage'
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Node.js
@@ -65,7 +61,7 @@ jobs:
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_regression == 'true' || github.event_name == 'push' && github.ref == 'refs/heads/qa/regression' }}
+    if: github.event.inputs.job-seleccionado == 'regression-test'
     environment: Stage
     env:
       URL: ${{ secrets.URL }}
