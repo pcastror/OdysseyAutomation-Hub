@@ -1,26 +1,24 @@
 name: Run Tests by Tag
 
 on:
-  push:
   workflow_dispatch:
     inputs:
-      run_smoke:
-        description: ¿Ejecutar pruebas de Smoke?
-        required: false
-        default: "false"
-        type: boolean
-      run_regression:
-        description: ¿Ejecutar pruebas de Regression?
-        required: false
-        default: "false"
-        type: boolean
+      stage:
+        description: ¿Qué etapa deseas ejecutar?
+        required: true
+        default: "build"
+        type: string
+        options:
+          - build
+          - smoke
+          - regression
 
 jobs:
   build:
+    if: ${{ github.event.inputs.stage == 'build' }}
     runs-on: ubuntu-latest
-    environment: Stage
-    env:
-      URL: ${{ secrets.URL }}
+    outputs:
+      dependencies_cached: ${{ steps.cache_step.outputs.cache-hit }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -29,6 +27,7 @@ jobs:
         with:
           node-version: 16.20.2
       - name: Cache npm dependencies
+        id: cache_step
         uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -37,13 +36,11 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
-      - name: Complete Build Process
-        run: npm run test:cucumber
 
   smoke:
-    needs: build
-    if: ${{ github.event.inputs.run_smoke == 'true' }}
+    if: ${{ github.event.inputs.stage == 'smoke' }}
     runs-on: ubuntu-latest
+    needs: build
     environment: Stage
     env:
       URL: ${{ secrets.URL }}
@@ -60,12 +57,12 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run smoke tests
-        run: TAGS="@smoke" npm run test-tag:cucumber
+        run: npm run test:cucumber --tags '@smoke'
 
   regression:
-    needs: build
-    if: ${{ github.event.inputs.run_regression == 'true' }}
+    if: ${{ github.event.inputs.stage == 'regression' }}
     runs-on: ubuntu-latest
+    needs: build
     environment: Stage
     env:
       URL: ${{ secrets.URL }}
@@ -82,4 +79,4 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: TAGS="@regression" npm run test-tag:cucumber
+        run: npm run test:cucumber --tags '@regression'
