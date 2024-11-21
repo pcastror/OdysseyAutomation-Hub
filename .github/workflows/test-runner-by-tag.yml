@@ -7,10 +7,9 @@ on:
       stage:
         description: ¿Qué etapa deseas ejecutar?
         required: true
-        default: "build"
+        default: build
         type: string
         options:
-          - build
           - smoke
           - regression
 
