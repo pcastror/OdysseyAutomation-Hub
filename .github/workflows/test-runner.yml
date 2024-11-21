@@ -39,4 +39,3 @@ jobs:
       - run: npm ci
       - name: Run Script
         run: npm run test:cucumber
-        continue-on-error: true

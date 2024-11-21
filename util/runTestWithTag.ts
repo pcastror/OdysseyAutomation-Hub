@@ -4,7 +4,7 @@ function removeAnsiCodes(text: string): string {
     return text.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '');
 }
 
-exec('npm run test:cucumber-report' , (error, stdout, stderr) => {
+exec('npm run test-tag:cucumber-report' , (error, stdout, stderr) => {
     const FilePath = 'cucumber-console-output.txt';
     if (error) {
         console.error(`Error execution Cucumber: ${error}`);
