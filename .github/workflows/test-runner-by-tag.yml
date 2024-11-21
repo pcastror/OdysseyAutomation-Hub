@@ -34,6 +34,8 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
+      - name: Complete Build Process
+        run: npm run test:cucumber
 
   smoke:
     needs: build
