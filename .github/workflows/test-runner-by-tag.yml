@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
   smoke:
-    if: ${{ github.event.inputs.stage == 'smoke' }}
+    if: ${{ github.event.inputs.stage == 'smoke' }} || (github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: build
     environment: Stage
@@ -61,7 +61,7 @@ jobs:
         run: TAGS="@smoke" npm run test-tag:cucumber
 
   regression:
-    if: ${{ github.event.inputs.stage == 'regression' }}
+    if: ${{ github.event.inputs.stage == 'regression' }} || (github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: build
     environment: Stage
@@ -80,4 +80,4 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: TAGS="@regression" npm run test-tag:cucumber
+        run: TAGS=${{github.event.inputs.stage}} npm run test-tag:cucumber
