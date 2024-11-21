@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-tag:smoke": "./node_modules/.bin/cucumber-js --tags @smoke",
+    "test-tag:smoke": "/home/runner/work/OdysseyAutomation-Hub/OdysseyAutomation-Hub/node_modules/.bin/cucumber-js --tags @smoke",
     "test-tag:regression": "./node_modules/.bin/cucumber-js --tags @regression",
     "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags",
     "test:cucumber": "cucumber-js",
