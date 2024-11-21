@@ -1,4 +1,5 @@
 name: Run Tests by Tag
+
 on:
   push:
     branches:
@@ -8,15 +9,14 @@ jobs:
   # Job de Build: Este siempre se ejecuta.
   build:
     runs-on: ubuntu-latest
-
+    env:
+        cache-name: cache node modules
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Cache node modules
         id: CacheStep
         uses: actions/cache@v2
-        env:
-          cache-name: cache node modules
         with:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
@@ -24,12 +24,13 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Install dependencies
-        if: steps.CacheStep.outputs.cache-hit != 'true'
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.20.2
+          node-version: 16.20.2     
+      - name: Install dependencies
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+     
       - name: Install with CI     
         run: npm ci
       - name: where am I
