@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-tag:cucumber": "cucumber-js --tags \"$TAGS\"",
-    "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags \"$TAGS\"",
+    "test-tag:cucumber": "cucumber-js --tags",
+    "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags",
     "test:cucumber": "cucumber-js",
     "test:cucumber-report": "cucumber-js --format json:report.json"
   },
