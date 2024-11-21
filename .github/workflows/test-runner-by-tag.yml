@@ -32,6 +32,8 @@ jobs:
       - name: Install dependencies
         if: steps.myCacheStep.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Run smoke tests
+        run: npm run test-tag:smoke
 
   # Job de Smoke: Este solo se ejecuta manualmente después del build.
   smoke:
