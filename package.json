@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-tag:smoke": "cucumber-js --tags @smoke",
-    "test-tag:regression": "cucumber-js --tags @regression",
+    "test-tag:smoke": "./node_modules/.bin/cucumber-js --tags @smoke",
+    "test-tag:regression": "./node_modules/.bin/cucumber-js --tags @regression",
     "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags",
     "test:cucumber": "cucumber-js",
     "test:cucumber-report": "cucumber-js --format json:report.json"
