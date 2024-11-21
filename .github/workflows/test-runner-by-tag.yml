@@ -15,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.20.2
+          node-version: 20
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.20.2
+          node-version: 20
       - name: Restore npm dependencies from cache
         uses: actions/cache@v2
         with:
@@ -59,7 +59,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.20.2
+          node-version: 20
       - name: Restore npm dependencies from cache
         uses: actions/cache@v2
         with:
