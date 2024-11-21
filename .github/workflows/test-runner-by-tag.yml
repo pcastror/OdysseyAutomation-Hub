@@ -33,12 +33,6 @@ jobs:
       TAG: '@smoke'
       URL: ${{ secrets.URL }}      
     steps:
-      - name: manual-approve
-        uses: trstringer/manual-approval@v1
-        with:
-          approvers: pcastror
-      - name: Deploy to production
-        run: echo deploying
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Node.js
@@ -57,16 +51,11 @@ jobs:
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event.inputs.job-seleccionado == 'regression-test'
     environment: Stage
     env:
       TAG: '@regression'
       URL: ${{ secrets.URL }}
     steps:
-      - name: manual-approve
-        uses: trstringer/manual-approval@v1
-        with:
-          approvers: pcastror
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Node.js
