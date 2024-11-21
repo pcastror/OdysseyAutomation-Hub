@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      TAG: '@smoke'
       URL: ${{ secrets.URL }}      
     steps:
       - name: Checkout repository
@@ -45,7 +44,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run smoke tests
-        run: TAGS=${{ env.TAG }} npm run test-tag:cucumber
+        run: npm run test:cucumber --tags \"@smoke\"
 
   # Job de Regression: Este solo se ejecuta manualmente después del build.
   regression:
@@ -53,7 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      TAG: '@regression'
       URL: ${{ secrets.URL }}
     steps:
       - name: Checkout repository
@@ -68,4 +66,4 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: npm run test-tag:cucumber ${{ env.TAG }}
+        run: npm run test:cucumber --tags \"@regression\" 
