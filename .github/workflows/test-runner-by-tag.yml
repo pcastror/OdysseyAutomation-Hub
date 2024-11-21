@@ -9,6 +9,7 @@ jobs:
   # Job de Build: Este siempre se ejecuta.
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -16,21 +17,29 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.20.2
-      - name: Cache npm dependencies
+      - name: Cache node modules
+        id: myCacheStep
         uses: actions/cache@v2
+        env:
+          cache-name: cache node modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Install dependencies
+        if: steps.myCacheStep.outputs.cache-hit != 'true'
         run: npm ci
-        
+
   # Job de Smoke: Este solo se ejecuta manualmente después del build.
   smoke:
     needs: build
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      URL: ${{ secrets.URL }}      
+      URL: ${{ secrets.URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -38,11 +47,22 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.20.2
-      - name: Restore npm dependencies from cache
+      - name: Cache node modules
+        id: myCacheStep
         uses: actions/cache@v2
+        env:
+          cache-name: cache node modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.myCacheStep.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: Run smoke tests
         run: npm run test-tag:smoke
 
@@ -60,10 +80,20 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.20.2
-      - name: Restore npm dependencies from cache
+      - name: Cache node modules
+        id: myCacheStep
         uses: actions/cache@v2
+        env:
+          cache-name: cache node modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.myCacheStep.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Run regression tests
         run: npm run test-tag:regression
