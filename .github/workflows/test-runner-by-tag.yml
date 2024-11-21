@@ -45,7 +45,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run smoke tests
-        run: npm run test:cucumber --tags \"${TAG}\"
+        run: npm run test-tag:cucumber \"${TAG}\"
 
   # Job de Regression: Este solo se ejecuta manualmente después del build.
   regression:
@@ -68,4 +68,4 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: npm run test:cucumber --tags ${{ env.TAG }}
+        run: npm run test-tag:cucumber ${{ env.TAG }}
