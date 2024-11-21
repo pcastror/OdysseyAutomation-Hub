@@ -1,16 +1,14 @@
 name: Run Tests by Tag
-
-on:
+'on':
   push:
     branches:
-      - qa/**  # Puedes modificar las ramas según lo necesites.
+      - qa/**
   workflow_dispatch:
 jobs:
-  # Job de Build: Este siempre se ejecuta.
   build:
     runs-on: ubuntu-latest
     env:
-        cache-name: cache node modules
+      cache-name: cache node modules
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -19,7 +17,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -27,80 +27,85 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.20.2     
+          node-version: 16.20.2
       - name: Install dependencies
         if: steps.CacheStep.outputs.cache-hit != 'true'
-     
-      - name: Install with CI     
+      - name: Install with CI
         run: npm ci
       - name: where am I
         run: pwd
       - name: what I have
         run: ls -R
       - name: Run smoke tests
-        run: npm run test-tag:smoke
-
-  # Job de Smoke: Este solo se ejecuta manualmente después del build.
+        run: 'npm run test-tag:smoke'
   smoke:
     needs: build
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      URL: ${{ secrets.URL }}
+      URL: '${{ secrets.URL }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.20.2
       - name: Cache node modules
-        id: myCacheStep
+        id: CacheStep
         uses: actions/cache@v2
-        env:
-          cache-name: cache node modules
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.20.2
       - name: Install dependencies
-        if: steps.myCacheStep.outputs.cache-hit != 'true'
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+      - name: Install with CI
         run: npm ci
-
+      - name: where am I
+        run: pwd
+      - name: what I have
+        run: ls -R
       - name: Run smoke tests
-        run: npm run test-tag:smoke
-
-  # Job de Regression: Este solo se ejecuta manualmente después del build.
+        run: 'npm run test-tag:smoke'
+  
   regression:
     needs: build
     runs-on: ubuntu-latest
     environment: Stage
     env:
-      URL: ${{ secrets.URL }}
+      URL: '${{ secrets.URL }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.20.2
       - name: Cache node modules
-        id: myCacheStep
+        id: CacheStep
         uses: actions/cache@v2
-        env:
-          cache-name: cache node modules
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.20.2
       - name: Install dependencies
-        if: steps.myCacheStep.outputs.cache-hit != 'true'
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+      - name: Install with CI
         run: npm ci
-      - name: Run regression tests
-        run: npm run test-tag:regression
+      - name: where am I
+        run: pwd
+      - name: what I have
+        run: ls -R
+      - name: Run smoke tests
+        run: 'npm run test-tag:regression'
