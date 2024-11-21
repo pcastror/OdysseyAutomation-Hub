@@ -1,19 +1,23 @@
 name: Run Tests by Tag
 
 on:
+  push:
   workflow_dispatch:
     inputs:
-      tag:
-        description: Tag to filter tests by
-        required: true
-        default: "@smoke"
-        type: string
-        
+      run_smoke:
+        description: ¿Ejecutar pruebas de Smoke?
+        required: false
+        default: "false"
+        type: boolean
+      run_regression:
+        description: ¿Ejecutar pruebas de Regression?
+        required: false
+        default: "false"
+        type: boolean
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.set_tag.outputs.tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -30,13 +34,12 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
-      - name: Set output for tag selection
-        id: set_tag
-        run: echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+      - name: Complete Build Process
+        run: npm run build
 
   smoke:
     needs: build
-    if: ${{ needs.build.outputs.tag == '@smoke' }}
+    if: ${{ github.event.inputs.run_smoke == 'true' }}
     runs-on: ubuntu-latest
     environment: Stage
     env:
@@ -58,7 +61,7 @@ jobs:
 
   regression:
     needs: build
-    if: ${{ needs.build.outputs.tag == '@regression' }}
+    if: ${{ github.event.inputs.run_regression == 'true' }}
     runs-on: ubuntu-latest
     environment: Stage
     env:
