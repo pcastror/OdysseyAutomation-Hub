@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:cucumber": "cucumber-js --format json:report.json"
+    "test-tag:cucumber": "cucumber-js --tags \"$TAGS\"",
+    "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags \"$TAGS\"",
+    "test:cucumber": "cucumber-js",
+    "test:cucumber-report": "cucumber-js --format json:report.json"
   },
   "keywords": [],
   "author": "",

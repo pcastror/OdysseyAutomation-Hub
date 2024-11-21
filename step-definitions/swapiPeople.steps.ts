@@ -2,6 +2,9 @@ import {binding, given, then, when} from 'cucumber-tsflow';
 import {assert, expect} from 'chai';
 import {setDefaultTimeout} from "@cucumber/cucumber";
 import {RequestService} from '../clients/request.service';
+/*import dotenv from 'dotenv';
+//use in local test with .env file
+dotenv.config();*/
 
 setDefaultTimeout(60 * 1000);
 
