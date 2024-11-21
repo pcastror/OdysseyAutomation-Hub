@@ -18,6 +18,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Stage
+    env:
+      URL: ${{ secrets.URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
