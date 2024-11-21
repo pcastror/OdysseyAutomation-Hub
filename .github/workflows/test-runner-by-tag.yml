@@ -24,25 +24,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-  select-job:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: select job
-      uses: actions/manual-validation@v2
-      with:
-        approvers: anyone
-        message: 'Please, select the test to run'
-        options: 'smoke-test, regression-test'
   # Job de Smoke: Este solo se ejecuta manualmente después del build.
   smoke:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event.inputs.job-seleccionado == 'smoke-test'
     environment: Stage
     env:
+      TAG: '@smoke'
       URL: ${{ secrets.URL }}      
     steps:
+      - name: manual-approve
+        uses: trstringer/manual-approval@v1
+        with:
+          approvers: pcastror
+      - name: Deploy to production
+        run: echo deploying
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Node.js
@@ -55,7 +51,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run smoke tests
-        run: npm run test:cucumber --tags '@smoke'
+        run: npm run test:cucumber --tags ${{ env.TAG }}
 
   # Job de Regression: Este solo se ejecuta manualmente después del build.
   regression:
@@ -64,13 +60,13 @@ jobs:
     if: github.event.inputs.job-seleccionado == 'regression-test'
     environment: Stage
     env:
+      TAG: '@regression'
       URL: ${{ secrets.URL }}
     steps:
-      - name: Approve
-        uses: actions/approval@v2
+      - name: manual-approve
+        uses: trstringer/manual-approval@v1
         with:
-          approval-type: 'manual'
-          environment: 'Stage'
+          approvers: pcastror
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Node.js
@@ -83,4 +79,4 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: npm run test:cucumber --tags '@smoke'
+        run: npm run test:cucumber --tags ${{ env.TAG }}
