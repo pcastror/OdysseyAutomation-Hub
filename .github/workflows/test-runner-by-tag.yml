@@ -15,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: 16.20.2
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -37,14 +37,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: 16.20.2
       - name: Restore npm dependencies from cache
         uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run smoke tests
-        run: npx run test-tag:cucumber --tags \@smoke\
+        run: npm run test-tag:smoke
 
   # Job de Regression: Este solo se ejecuta manualmente después del build.
   regression:
@@ -59,11 +59,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: 16.20.2
       - name: Restore npm dependencies from cache
         uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Run regression tests
-        run: npx run test-tag:cucumber --tags \@regression\ 
+        run: npm run test-tag:regression
