@@ -1,6 +1,7 @@
 name: Run Tests by Tag
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       stage:
