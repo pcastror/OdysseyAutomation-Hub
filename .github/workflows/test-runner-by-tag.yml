@@ -40,7 +40,6 @@ jobs:
   smoke:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref_type == 'tag' && contains(github.ref_name, 'smoke')
     concurrency:
       group: example-group
       cancel-in-progress: false
@@ -78,7 +77,6 @@ jobs:
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref_type == 'tag' && contains(github.ref_name, 'regression')
     concurrency:
       group: example-group
       cancel-in-progress: false
