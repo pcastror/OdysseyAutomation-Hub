@@ -2,8 +2,6 @@ name: Run Tests by Tag
 
 on:
   push:
-    branches:
-      - qa/**
   workflow_dispatch:
     inputs:
       job_to_run:
@@ -49,12 +47,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.job_to_run == 'smoke' }}
-    concurrency:
-      group: cucumber-test
-      cancel-in-progress: false
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
+      TAG: '@smoke'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -81,15 +77,12 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run smoke tests
-        run: 'npm run test-tag:smoke'
+        run: npm run test:cucumber --tags ${{ env.TAG }}
 
   regression:
     needs: build
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.job_to_run == 'regression' }}
-    concurrency:
-      group: cucumber-test
-      cancel-in-progress: false
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
