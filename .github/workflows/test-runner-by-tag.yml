@@ -46,7 +46,7 @@ jobs:
   smoke:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'Smoke' || 'All' }}
+    if: ${{ github.event.inputs.job_to_run == 'Smoke' || github.event.inputs.job_to_run == 'All' }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
@@ -79,12 +79,12 @@ jobs:
       - name: Run smoke tests
         run: |
             TAGS=${{ env.TAG }} >> ${GITHUB_ENV}
-            npm run test:cucumber
+            npm run test-tag:cucumber
 
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'regression' || 'All' }}
+    if: ${{ github.event.inputs.job_to_run == 'regression' || github.event.inputs.job_to_run == 'All }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
