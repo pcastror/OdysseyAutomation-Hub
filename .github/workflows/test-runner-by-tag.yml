@@ -46,7 +46,7 @@ jobs:
   smoke:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'Smoke' || github.event.inputs.job_to_run == 'All' }}
+    if: ${{ (github.event.inputs.job_to_run == 'Smoke') || (github.event.inputs.job_to_run == 'All') }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
@@ -84,7 +84,7 @@ jobs:
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'regression' || github.event.inputs.job_to_run == 'All }}
+    if: ${{ (github.event.inputs.job_to_run == 'regression') || (github.event.inputs.job_to_run == 'All') }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
