@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-tag:cucumber": "cucumber-js --tags --tags \"$TAGS\"",
+    "test-tag:cucumber": "cucumber-js --tags \"$TAGS\"",
     "test-tag:smoke": "cucumber-js --tags @smoke",
     "test-tag:regression": "cucumber-js --tags @regression",
     "test-tag:cucumber-report": "cucumber-js --format json:report.json --tags \"$TAGS\"",
