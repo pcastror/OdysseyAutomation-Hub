@@ -5,6 +5,14 @@ on:
     branches:
       - qa/**
   workflow_dispatch:
+    inputs:
+      job_to_run:
+      description: 'select the test to execute'
+      required: true
+      type: choice
+      options:
+      - smoke
+      - regression
 
 jobs:
   build:
@@ -40,8 +48,9 @@ jobs:
   smoke:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.job_to_run == 'smoke' }}
     concurrency:
-      group: example-group
+      group: cucumber-test
       cancel-in-progress: false
     environment: Stage
     env:
@@ -77,8 +86,9 @@ jobs:
   regression:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.job_to_run == 'regression' }}
     concurrency:
-      group: example-group
+      group: cucumber-test
       cancel-in-progress: false
     environment: Stage
     env:
