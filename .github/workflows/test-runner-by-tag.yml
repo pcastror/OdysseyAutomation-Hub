@@ -8,8 +8,9 @@ on:
         required: true
         type: choice
         options:
-          - smoke
-          - regression
+          - Smoke
+          - Regression
+          - All
 
 jobs:
   build:
@@ -45,7 +46,7 @@ jobs:
   smoke:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'smoke' }}
+    if: ${{ github.event.inputs.job_to_run == 'Smoke' || 'All' }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
@@ -76,12 +77,14 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run smoke tests
-        run: TAGS=${{ env.TAG }} npm run test:cucumber
+        run: |
+            TAGS=${{ env.TAG }} >> ${GITHUB_ENV}
+            npm run test:cucumber
 
   regression:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.job_to_run == 'regression' }}
+    if: ${{ github.event.inputs.job_to_run == 'regression' || 'All' }}
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
