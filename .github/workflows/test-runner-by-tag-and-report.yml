@@ -88,13 +88,43 @@ jobs:
       - name: Install with CI
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Run tests by tag ${{ env.TAG }} 
-        if: ${{ github.event.inputs.job_to_run != 'All' }}
+      - name: Running tests using tag ${{ env.TAG }} 
+        if: (${{ github.event.inputs.job_to_run != 'All' }} && ${{ github.event.inputs.boolean == 'false' }})
         run: |
             TAGS=${{ env.TAG }} npm run test-tag:cucumber
-      - name: Run tests by tag ${{ env.TAG }}       
-        if: ${{ github.event.inputs.job_to_run == 'All' }}
+      - name: Running all tests   
+        if: (${{ github.event.inputs.job_to_run == 'All' }} && ${{ github.event.inputs.boolean == 'false' }})
         run: |
             npm run test:cucumber
+      - name: Running test with report using tag ${{ env.TAG }} 
+        if: (${{ github.event.inputs.boolean == 'true' }} && ${{ github.event.inputs.job_to_run != 'All' }})
+        working-directory: ./util
+        run: |
+            TAGS=${{ env.TAG }} npx ts-node runTestWithTag.ts
+      - name: Running all tests with report
+        if: (${{ github.event.inputs.boolean == 'true' }} && ${{ github.event.inputs.job_to_run == 'All' }})
+        working-directory: ./util
+        run: |
+            npx ts-node runTest.ts
+      
+    
+  cucumber-report:
+    needs: [build, test-by-tag]
+    runs-on: ubuntu-latest
+    if: |
+      (github.event.input.boolean == 'true' && needs.test-by-tag.result == 'success')
+    environment: Stage
+    steps:
+      - name: Read file and set output variable
+        working-directory: ./util
+        id: read_file
+        run: | 
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
+          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_ENV
+      - name: Decode and use FILE_CONTENT
+        run: |
+          echo "$FILE_CONTENT" | base64 --decode
+          echo "report sent to slack : $FILE_CONTENT"
+
         
             
