@@ -89,11 +89,11 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run tests by tag ${{ env.TAG }} 
-        if: ${{ github.event.inputs.job_to_run != 'All'
+        if: ${{ github.event.inputs.job_to_run != 'All' }}
         run: |
             TAGS=${{ env.TAG }} npm run test-tag:cucumber
       - name: Run tests by tag ${{ env.TAG }}       
-        if: ${{ github.event.inputs.job_to_run == 'All'
+        if: ${{ github.event.inputs.job_to_run == 'All' }}
         run: |
             npm run test:cucumber
         
