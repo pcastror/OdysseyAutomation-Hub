@@ -89,27 +89,31 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Running tests using tag ${{ env.TAG }} 
-        if: ${{ github.event.inputs.job_to_run != 'All' }} && ${{ github.event.inputs.boolean == 'false' }}
+        if: |
+          (github.event.inputs.job_to_run != 'All') && (github.event.inputs.boolean == 'false')
         run: |
             TAGS=${{ env.TAG }} npm run test-tag:cucumber
       - name: Running all tests   
-        if: ${{ github.event.inputs.job_to_run == 'All' }} && ${{ github.event.inputs.boolean == 'false' }}
+        if: |
+          (github.event.inputs.job_to_run == 'All') && (github.event.inputs.boolean == 'false')
         run: |
             npm run test:cucumber
       - name: Running test with report using tag ${{ env.TAG }} 
-        if: ${{ github.event.inputs.boolean == 'true' }} && ${{ github.event.inputs.job_to_run != 'All' }}
+        if: |
+          (github.event.inputs.boolean == 'true') && (github.event.inputs.job_to_run != 'All')
         working-directory: ./util
         run: |
             TAGS=${{ env.TAG }} npx ts-node runTestWithTag.ts
       - name: Running all tests with report
-        if: ${{ github.event.inputs.boolean == 'true' }} && ${{ github.event.inputs.job_to_run == 'All' }}
+        if: | 
+          (github.event.inputs.boolean == 'true') && (github.event.inputs.job_to_run == 'All')
         working-directory: ./util
         run: |
             npx ts-node runTest.ts
       
     
   cucumber-report:
-    needs: [build, test-by-tag]
+    needs: [test-by-tag]
     runs-on: ubuntu-latest
     if: |
       always() &&
