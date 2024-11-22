@@ -78,8 +78,7 @@ jobs:
         run: npm ci
       - name: Run smoke tests
         run: |
-            TAGS=${{ env.TAG }} >> ${GITHUB_ENV}
-            npm run test-tag:cucumber
+            TAGS=${{ env.TAG }} npm run test-tag:cucumber
 
   regression:
     needs: build
