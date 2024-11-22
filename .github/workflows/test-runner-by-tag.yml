@@ -7,12 +7,12 @@ on:
   workflow_dispatch:
     inputs:
       job_to_run:
-      description: 'select the test to execute'
-      required: true
-      type: choice
-      options:
-      - smoke
-      - regression
+        description: 'select the test to execute'
+        required: true
+        type: choice
+        options:
+          - smoke
+          - regression
 
 jobs:
   build:
