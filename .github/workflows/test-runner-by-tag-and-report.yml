@@ -104,12 +104,20 @@ jobs:
         working-directory: ./util
         run: |
             TAGS=${{ env.TAG }} npx ts-node runTestWithTag.ts
+      - name: Read file and set output variable
+        run: | 
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
+          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_OUTPUT
       - name: Running all tests with report
         if: | 
           (github.event.inputs.boolean == 'true') && (github.event.inputs.job_to_run == 'All')
         working-directory: ./util
         run: |
             npx ts-node runTest.ts
+      - name: Read file and set output variable
+        run: | 
+          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
+          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_OUTPUT
       
     
   cucumber-report:
@@ -119,17 +127,13 @@ jobs:
       always() &&
       (github.event.inputs.boolean == 'true') && (needs.test-by-tag.result == 'success')
     environment: Stage
+    env: 
+      CUCUMBER_REPORT: ${{ needs.test-by-tag.outputs.FILE_CONTENT }}
     steps:
-      - name: Read file and set output variable
-        working-directory: ./util
-        id: read_file
-        run: | 
-          FILE_CONTENT=$(cat util/cucumber-console-output.txt | base64 | tr -d '\n')
-          echo "FILE_CONTENT=${FILE_CONTENT}" >> $GITHUB_ENV
       - name: Decode and use FILE_CONTENT
         run: |
-          echo "$FILE_CONTENT" | base64 --decode
-          echo "sending report to slack... : $FILE_CONTENT"
+          echo "$CUCUMBER_REPORT" | base64 --decode
+          echo "sending report to slack... : $CUCUMBER_REPORT"
 
         
             
