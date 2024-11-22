@@ -1,0 +1,127 @@
+name: Tests by Tag and report
+
+on:
+  workflow_dispatch:
+    inputs:
+        environment:
+          type: environment
+          description: Select the environment
+        boolean:
+          type: boolean
+          description: Generate report?
+          
+        job_to_run: 
+          description: 'select the test to execute'
+          required: true
+          type: boolean
+          options:
+            - @smoke
+            - @regression
+            - @luke
+            - @r2d2
+            - @c3po
+            - @vader
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      cache-name: cache node modules
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        id: CacheStep
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.20.2
+
+      - name: Install with CI
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+        run: npm ci
+
+  smoke:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ (github.event.inputs.job_to_run == 'Smoke') || (github.event.inputs.job_to_run == 'All') }}
+    environment: Stage
+    env:
+      URL: '${{ secrets.URL }}'
+      TAG: '@smoke'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        id: CacheStep
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.20.2
+
+      - name: Install with CI
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Run smoke tests
+        run: |
+            TAGS=${{ env.TAG }} npm run test-tag:cucumber
+
+  regression:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ (github.event.inputs.job_to_run == 'regression') || (github.event.inputs.job_to_run == 'All') }}
+    environment: Stage
+    env:
+      URL: '${{ secrets.URL }}'
+      TAG: '@regression'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        id: CacheStep
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: >-
+            ${{ runner.os }}-node-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.20.2
+
+      - name: Install with CI
+        if: steps.CacheStep.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Run regression tests
+        run: |
+            TAGS=${{ env.TAG }} npm run test-tag:cucumber
