@@ -21,6 +21,8 @@ on:
             - '@r2d2'
             - '@c3po'
             - '@vader'
+            - 'All'
+          
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -86,6 +88,13 @@ jobs:
       - name: Install with CI
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Run smoke tests
+      - name: Run tests by tag ${{ env.TAG }} 
+        if: ${{ github.event.inputs.job_to_run != 'All'
         run: |
             TAGS=${{ env.TAG }} npm run test-tag:cucumber
+      - name: Run tests by tag ${{ env.TAG }}       
+        if: ${{ github.event.inputs.job_to_run == 'All'
+        run: |
+            npm run test:cucumber
+        
+            
