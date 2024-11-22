@@ -1,7 +1,6 @@
 name: Run Tests by Tag
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       job_to_run:
@@ -77,7 +76,7 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run smoke tests
-        run: npm run test:cucumber --tags ${{ env.TAG }}
+        run: TAGS=${{ env.TAG }} npm run test:cucumber
 
   regression:
     needs: build
