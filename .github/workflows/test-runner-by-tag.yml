@@ -3,14 +3,21 @@ name: Run Tests by Tag
 on:
   workflow_dispatch:
     inputs:
-      job_to_run:
-        description: 'select the test to execute'
-        required: true
-        type: choice
-        options:
-          - Smoke
-          - Regression
-          - All
+        environment:
+          type: environment
+          description: Select the environment
+        boolean:
+          type: boolean
+          description: Generate report
+          
+        job_to_run: 
+          description: 'select the test to execute'
+          required: true
+          type: choice
+          options:
+            - Smoke
+            - Regression
+            - All
 
 jobs:
   build:
@@ -87,6 +94,7 @@ jobs:
     environment: Stage
     env:
       URL: '${{ secrets.URL }}'
+      TAG: '@regression'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -113,4 +121,5 @@ jobs:
         if: steps.CacheStep.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run regression tests
-        run: 'npm run test-tag:regression'
+        run: |
+            TAGS=${{ env.TAG }} npm run test-tag:cucumber
