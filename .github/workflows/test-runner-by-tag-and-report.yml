@@ -128,7 +128,7 @@ jobs:
       (github.event.inputs.boolean == 'true') && (needs.test-by-tag.result == 'success')
     environment: Stage
     env: 
-      CUCUMBER_REPORT: needs.test-by-tag.outputs.FILE_CONTENT
+      CUCUMBER_REPORT: ${{ needs.test-by-tag.outputs.FILE_CONTENT }}
     steps:
       - name: Decode and use FILE_CONTENT
         run: |
