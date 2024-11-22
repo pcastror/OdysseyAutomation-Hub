@@ -133,7 +133,7 @@ jobs:
       - name: Decode and use FILE_CONTENT
         run: |
           echo "$CUCUMBER_REPORT" | base64 --decode
-          echo "sending report to slack... : $CUCUMBER_REPORT"
+          echo "sending report to slack... : $CUCUMBER_REPORT" ${{ env.CUCUMBER_REPORT }}
 
         
             
