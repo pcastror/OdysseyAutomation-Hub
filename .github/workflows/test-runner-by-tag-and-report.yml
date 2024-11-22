@@ -117,7 +117,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       always() &&
-      (github.event.input.boolean == 'true') && (needs.test-by-tag.result == 'success')
+      (github.event.inputs.boolean == 'true') && (needs.test-by-tag.result == 'success')
     environment: Stage
     steps:
       - name: Read file and set output variable
@@ -129,7 +129,7 @@ jobs:
       - name: Decode and use FILE_CONTENT
         run: |
           echo "$FILE_CONTENT" | base64 --decode
-          echo "report sent to slack : $FILE_CONTENT"
+          echo "sending report to slack... : $FILE_CONTENT"
 
         
             
