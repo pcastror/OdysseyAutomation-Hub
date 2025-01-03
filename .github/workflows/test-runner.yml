@@ -44,6 +44,7 @@ jobs:
       - name: Run Script
         run: npm run test:cucumber
       - name: Upload cucumber report as artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: cucumber-report
