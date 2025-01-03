@@ -82,12 +82,11 @@ jobs:
                   mv report.json docs/
         
         - name: Commit and push to gh-pages
-          uses: EndBug/add-and-commit@v9
-          with:
-                  author_name: "GitHub Actions"
-                  author_email: "actions@github.com"
-                  message: "Update cucumber report"
-                  add: "docs/*"
+          run: |
+                    git add docs/*
+                    git commit -m "Update cucumber report"
+                    git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+                
                   
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
