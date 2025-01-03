@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Automated API Testing with Cucumber, TypeScript, and GitHub Actions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4CAF50;
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        a {
+            color: #4CAF50;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Automated API Testing with Cucumber, TypeScript, and GitHub Actions</h1>
+</header>
+
+<main>
+    <section>
+        <p>This repository contains a test suite built with Cucumber and TypeScript for automated API testing. The tests are run with GitHub Actions and include step definitions, hooks, utilities, and a custom <code>runTest.ts</code> script for managing test execution and reporting.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#project-structure">Project Structure</a></li>
+            <li><a href="#setup-and-installation">Setup and Installation</a></li>
+            <li><a href="#running-tests">Running Tests</a>
+                <ul>
+                    <li><a href="#run-tests-with-report">Run Tests with Report</a></li>
+                    <li><a href="#run-tests-without-report">Run Tests without Report</a></li>
+                </ul>
+            </li>
+            <li><a href="#environment-variables">Environment Variables</a></li>
+            <li><a href="#github-actions">GitHub Actions</a></li>
+        </ul>
+    </section>
+
+    <section id="project-structure">
+        <h2>Project Structure</h2>
+        <p>The repository is organized as follows:</p>
+        <ul>
+            <li><strong>features/</strong>: Contains feature files written in Gherkin for Cucumber.</li>
+            <li><strong>step-definitions/</strong>: Houses step definitions, which connect Gherkin steps with the actual test logic.</li>
+            <li><strong>hooks/</strong>: Defines any Cucumber hooks that run before or after tests.</li>
+            <li><strong>client/</strong>: Includes services for handling API calls and credentials.
+                <ul>
+                    <li><code>client-credential.service.ts</code>: Initializes environment variables.</li>
+                    <li><code>request.service.ts</code>: Uses <code>axios</code> and credentials to perform API calls.</li>
+                </ul>
+            </li>
+            <li><strong>util/</strong>: Contains utility scripts.
+                <ul>
+                    <li><code>runTest.ts</code>: A custom script to execute tests and generate a report using the command <code>npx ts-node util/runTest.ts</code>.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section id="setup-and-installation">
+        <h2>Setup and Installation</h2>
+        <p>Follow these steps to set up the project on your local machine:</p>
+        <ol>
+            <li>Clone this repository:</li>
+            <pre><code>git clone <your-repo-url></code></pre>
+            <li>Install dependencies:</li>
+            <pre><code>cd into directory
+npm ci</code></pre>
+        </ol>
+    </section>
+
+    <section id="running-tests">
+        <h2>Running Tests</h2>
+        <p>You can run the tests with or without generating a report.</p>
+
+        <h3 id="run-tests-with-report">Run Tests with Report</h3>
+        <p>To run the tests and generate a report, use the following command:</p>
+        <pre><code>npx ts-node util/runTest.ts</code></pre>
+        <p>This command uses <code>child-process</code> to execute <code>npm run test:cucumber</code>, which runs the tests and saves the report URL in a text file, as well as generating the report in JSON format.</p>
+
+        <h3 id="run-tests-without-report">Run Tests without Report</h3>
+        <p>To run the tests without generating a report, you can simply run:</p>
+        <pre><code>npm run test:cucumber</code></pre>
+    </section>
+
+    <section id="environment-variables">
+        <h2>Environment Variables</h2>
+        <p>The <code>client/client-credential.service.ts</code> file loads environment variables for authentication and API requests. Ensure you have a <code>.env</code> file in the root of the project with the necessary variables.</p>
+
+        <p>Example <code>.env</code> file:</p>
+        <pre><code>URL=https://swapi.dev</code></pre>
+    </section>
+
+    <section id="github-actions">
+        <h2>GitHub Actions</h2>
+        <p>This repository uses GitHub Actions to automate test execution. Each time a change is pushed, the tests will run automatically and report the results in the Actions tab.</p>
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><strong>Note:</strong> The API used to test is <a href="https://swapi.dev/">swapi.dev</a>.</p>
+        <p><strong>What is this?</strong><br>The Star Wars API, or "swapi" (Swah-pee), is the world's first quantified and programmatically-accessible data source for all the data from the Star Wars canon universe! In simple words, it's a playground for projects and tutorials. This project is open-source, and you can contribute on GitHub.</p>
+        <p><strong>Copyright and Stuff?</strong><br>Star Wars and all associated names are copyright Lucasfilm ltd. This project is open-source and carries a BSD license. All data has been freely collected from open sources such as Wookiepedia.</p>
+    </footer>
+</main>
+
+</body>
+
+</html>
