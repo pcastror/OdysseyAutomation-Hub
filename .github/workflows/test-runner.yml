@@ -1,4 +1,5 @@
 name: Tests
+
 on:
   workflow_dispatch:
   push:
@@ -9,6 +10,7 @@ on:
       - opened
       - synchronize
       - reopened
+
 jobs:
   build:
     name: Prep. vars
@@ -20,6 +22,7 @@ jobs:
       - name: Variables populate
         run: |
           echo "secret variable: $URL_NOT_SECRET"
+
   test:
     name: test
     runs-on: ubuntu-latest
@@ -44,7 +47,7 @@ jobs:
       - name: Run Script
         run: npm run test:cucumber
       - name: Upload cucumber report as artifact
-        if: always()
+        if: always()  # Esto asegura que este paso se ejecute siempre, incluso si los tests fallan
         uses: actions/upload-artifact@v3
         with:
           name: cucumber-report
@@ -54,10 +57,12 @@ jobs:
     name: Deploy Report to GitHub Pages
     runs-on: ubuntu-latest
     needs: test
-    if: always()
+    if: always()  # Esto asegura que el job de deploy se ejecute siempre
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4.2.2
+        with:
+          ref: gh-pages  # Checkout de la rama gh-pages
 
       - name: Download cucumber report artifact
         uses: actions/download-artifact@v3
@@ -76,10 +81,9 @@ jobs:
           author_email: "actions@github.com"
           message: "Update cucumber report"
           add: "docs/*"
-
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_branch: gh-pages
           publish_dir: ./docs
-  
