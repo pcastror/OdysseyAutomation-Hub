@@ -54,36 +54,44 @@ jobs:
           path: report.json
 
   deploy:
-    name: Deploy Report to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: test
-    if: always()  # Esto asegura que el job de deploy se ejecute siempre
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4.2.2
-        with:
-          ref: gh-pages  # Checkout de la rama gh-pages
-
-      - name: Download cucumber report artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cucumber-report
-
-      - name: Move cucumber report to docs folder
-        run: |
-          mkdir -p docs
-          mv report.json docs/
-
-      - name: Commit and push to gh-pages
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: "GitHub Actions"
-          author_email: "actions@github.com"
-          message: "Update cucumber report"
-          add: "docs/*"
-          
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          publish_branch: gh-pages
-          publish_dir: ./docs
+        name: Deploy Report to GitHub Pages
+        runs-on: ubuntu-latest
+        needs: test
+        if: always()
+        steps:
+        - name: Checkout the code
+          uses: actions/checkout@v4.2.2
+          with:
+                  ref: gh-pages  # Checkout de la rama gh-pages
+                  fetch-depth: 0  # Obtener toda la historia del repositorio
+        
+        - name: Set up Git with GitHub token
+          run: |
+                  git config user.name "GitHub Actions"
+                  git config user.email "actions@github.com"
+                  git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
+                  
+        - name: Download cucumber report artifact
+          uses: actions/download-artifact@v3
+          with:
+              name: cucumber-report
+        
+        - name: Move cucumber report to docs folder
+          run: |
+                  mkdir -p docs
+                  mv report.json docs/
+        
+        - name: Commit and push to gh-pages
+          uses: EndBug/add-and-commit@v9
+          with:
+                  author_name: "GitHub Actions"
+                  author_email: "actions@github.com"
+                  message: "Update cucumber report"
+                  add: "docs/*"
+                  
+        - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+                  publish_branch: gh-pages
+                  publish_dir: ./docs
+        
